@@ -1,0 +1,145 @@
+#include<iostream>
+#include<string>
+#include<vector>
+using namespace std;
+class Sach{
+    private:
+    static int MaSachCounter;
+    int MaSach;
+    string TenSach;
+    string TacGia;
+    string ChuyenNganh;
+    int NamXuatBan;
+    public:
+    Sach(){};
+    Sach(string name,string author,string major,int namxb){
+        this->MaSach=++MaSachCounter;
+        this->TenSach=name;
+        this->TacGia=author;
+        this->ChuyenNganh=major;
+        this->NamXuatBan=namxb;
+    }
+    int getMaSach()const{
+        return MaSach;
+    }
+    virtual void input(){
+        cout<<"Nhap Ten Sach : ";cin>>TenSach;
+        cout<<"Nhap Tac Gia cua cuon sach : ";cin>>TacGia;
+        cout<<"Nhap Chuyen Nganh cua sach : ";cin>>ChuyenNganh;
+        cout<<"Nhap Nam xuat ban: ";cin>>NamXuatBan;
+    }
+    virtual void output(){
+        cout<<"Ma Sach : "<<MaSach<<endl;
+        cout<<"Ten Sach : "<<TenSach<<endl;
+        cout<<"Tac Gia : "<<TacGia<<endl;
+        cout<<"Chuyen Nganh: "<<ChuyenNganh<<endl;
+        cout<<"Nam Xuat Ban : "<<NamXuatBan<<endl;
+    }
+};
+class Nguoi{
+    protected:
+    string HoTen;
+    string DiaChi;
+    string SDT;
+};
+class BanDoc:public Nguoi{
+    private:
+    static int MaBanDocCounter;
+    int MaBanDoc;
+    int SoSachMuon;
+    string LoaiBanDoc;
+    vector<int> DanhSachMaSach;
+    public:
+    BanDoc(){};
+    BanDoc(string ten,string diachi,string sdt,int sosachmuon,string loai){
+        this->HoTen=ten;
+        this->DiaChi=diachi;
+        this->SDT=sdt;
+        this->SoSachMuon=sosachmuon;
+        this->LoaiBanDoc=loai;
+    }
+    int getIdBanDoc(){
+        return MaBanDoc;
+    }
+    vector<int>getListSach(){
+        return DanhSachMaSach;
+    }
+    void input(){
+        cout<<"Nhap Ho Ten : ";cin>>HoTen;
+        cout<<"Nhap Dia Chi : ";cin>>DiaChi;
+        cout<<"Nhap SDT : ";cin>>SDT;
+        cout<<"Nhap So Sach Muon : ";cin>>SoSachMuon;
+        cout<<"Nhap Loai Ban Doc : ";cin>>LoaiBanDoc;
+        
+    for(int i=0;i<SoSachMuon;i++){
+        int n;
+        cout<<"Nhap Ma Sach : ";cin>>n;
+        if(n>10000){
+            DanhSachMaSach.push_back(n);
+        }else{
+            cout<<"Ma Sach khong hop le : ";
+        }
+    }
+    }
+    void output(){
+        cout<<"Ho ten : "<<HoTen<<endl;
+        cout<<"Dia Chi : "<<DiaChi<<endl;
+        cout<<"SDT : "<<SDT<<endl;
+        cout<<"Ma Ban Doc : "<<MaBanDoc<<endl;
+        cout<<"Loai :"<<LoaiBanDoc<<endl;
+        cout<<"So sach muon : "<<SoSachMuon<<endl;
+        for(int i=0;i<DanhSachMaSach.size();i++){
+            cout<<DanhSachMaSach[i]<<endl;
+        }
+    }
+};
+int Sach::MaSachCounter=9999;
+int BanDoc::MaBanDocCounter=9999;
+int main(){
+    int n;
+    cout<<"Nhap tong so sach hien co : ";
+    cin>>n;
+    vector<Sach>ListBook;
+    vector<BanDoc>ListBanDoc;
+    Sach temp;
+    for(int i=0;i<n;i++){
+       // Sach temp("name","authot","major",0);
+        temp.input();
+        ListBook.push_back(temp);
+    }
+    int m;
+    cout<<"Nhap so luong ban doc : ";
+    cin>>m;
+    for(int i=0;i<m;i++){
+        BanDoc a;
+        a.input();
+        ListBanDoc.push_back(a);
+    }
+    //in ra danh sach sach : 
+    for(int i=0;i<n;i++){
+        ListBook[i].output();
+    }
+    // in ra danh sach ban doc :
+    for(int i=0;i<m;i++){
+        ListBanDoc[i].output();
+    }
+    //tim kiem ban doc 
+    int ID;
+    cout<<"Nhap ma ban doc : "; cin>>ID;
+    for(BanDoc t:ListBanDoc){
+        if(t.getIdBanDoc()==ID){
+            t.output();
+            cout<<"Danh Sach Cac Cuon Sach Da Muon : \n";
+            for(Sach a:ListBook){
+                for(int i=0;i<t.getListSach().size();i++){
+                    if(a.getMaSach()==t.getListSach()[i]){
+                        a.output();
+                        cout<<endl;
+                    }
+                }
+            }
+        }
+    }
+    return 0;
+
+}
