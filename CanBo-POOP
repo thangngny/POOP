@@ -1,0 +1,135 @@
+#include<iostream>
+using namespace std;
+class CanBo
+{
+    protected:
+    string HoTen;
+    string GioiTinh;
+    int NamSinh;
+    public:
+    CanBo(){};
+    int Tuoi(){
+        return 2023-this->NamSinh;
+    }
+    CanBo(string hoten,string gioitinh,int namsinh){
+        this->HoTen=hoten;
+        this->GioiTinh=gioitinh;
+        this->NamSinh=namsinh;
+    }
+    ~CanBo(){};
+    virtual void input(){
+        cin.ignore();
+        cout<<"Nhap ho ten : ";getline(cin,HoTen);
+        cout<<"Nhap Gioi Tinh : ";cin>>GioiTinh;
+        cout<<"Nhap nam sinh : ";cin>>NamSinh;
+    }
+    virtual void output(){
+        cout<<"Ho ten "<<"\t"<<HoTen<<"\t"<<"Gioi tinh : "<<"\t"<<GioiTinh<<"\t"<<"Nam Sinh : "<<"\t"<<NamSinh<<endl;
+    }
+    virtual bool NghiHuu(){};
+    virtual double Luong(){};
+};
+class BienChe : public CanBo{
+    private :
+     string DonVi;
+     double HsLuong;
+    public:
+    BienChe(){};
+    bool NghiHuu()override{
+        return (Tuoi()>=60);
+    }
+    double Luong()override{
+        if(!NghiHuu()){
+            return HsLuong*1310000;
+        }
+        else{
+            return HsLuong*1310000*0.7;
+        }
+    }
+    void input(){
+        CanBo :: input();
+        cout<<"Nhap Don Vi : ";
+        getline(cin,DonVi);
+        cout<<"Nhap He SO Luong : ";
+        cin>>HsLuong;
+        cin.ignore();
+    }
+    void output(){
+        CanBo :: output();
+        cout<<"Don Vi : "<<DonVi<<"\t"<<"He So Luong : "<<HsLuong<<endl;
+        if(NghiHuu()){
+            cout<<"Da Nghi Huu : ";
+        }
+        else {
+            cout<<"Chua nghi huu :";
+        }
+        cout<<Luong();
+   }
+};
+class HopDong: public CanBo{
+    private : 
+    int NamCongTac;
+    double HeSoThamNien;
+    double MucLuong;
+    public:
+    HopDong(){};
+    ~HopDong(){};
+    bool NghiHuu()override{
+        return (NamCongTac >=35);
+    }
+    double Luong()override{
+        if(!NghiHuu()){
+            return HeSoThamNien*MucLuong;
+        }
+        else{
+            return 0;
+        }
+    }
+    void input(){
+        CanBo::input();
+        cout<<"Nhap Muc Luong : ";cin>>MucLuong;
+        cout<<"Nhap He So Tham Nien : ";cin>>HeSoThamNien;
+        cout<<"Nhap Nam Cong Tac : ";cin>>NamCongTac;
+    }
+    void output(){
+        CanBo:: output();
+        cout<<"Muc Luong :"<<MucLuong<<"\t"<<"HeSoThamNien: "<<HeSoThamNien<<"\t"<<"Nam Cong Tac : "<<NamCongTac;
+    if(NghiHuu()){
+        cout<<"Da Nghi Huu : ";
+    }
+    else{
+        cout<<"Chua nghi huu : ";
+    }
+    cout<<Luong();
+    }
+    };
+    int main(){
+        // cout<<"Hai Can Bo \n";
+        // CanBo*listCanBo[2];
+        // cout<<"Bien Che : \n";
+        // listCanBo[0]=new BienChe;
+        // listCanBo[0]->input();
+        // cout<<"Hop Dong : \n";
+        // listCanBo[1]=new HopDong;
+        // listCanBo[1]->input();
+        // cout<<endl;
+        // listCanBo[0]->output();
+        // cout<<"\n";
+        // listCanBo[1]->output();
+        CanBo a("Thang","Nam",2004);
+        a.output();
+        cout<<"\n";
+        int n;
+        cout<<"Nhap so luong can bo:\n ";
+        cin>>n;
+        CanBo *ptr=new CanBo[n];
+        for(int i=0;i<n;i++){
+            cout<<"nhap so luong can bo thu : "<<i+1;
+             ptr[i].input();
+        }
+        for(int i=0;i<n;i++){
+            cout<<"Can bo thu "<<i+1;
+            ptr[i].output();
+        }
+        return 0;
+    }
